@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import HeroSection from '../components/HeroSection';
 import { left, right } from '../assets';
 import { FundCard } from '../components';
-import { solarSystem } from '../assets';
+import { solarSystem, demo } from '../assets';
 import { useRef } from 'react';
 import {Footer} from '../components';
 import {CustomButton} from '../components';
@@ -50,16 +50,7 @@ const Home = () => {
    <div className='mt-[100px]   flex justify-between items-center'>
       <h2 className='text-5xl font-extrabold'>Popular Campaigns</h2>
 
-      <div className='flex gap-3 justify-between'>
-
-        <div className='max-w-[50px] border border-gray-300 border-2 hover:bg-gray-300 rounded p-2 cursor-pointer'>
-          <img src={right} onClick={scrollRight} alt="right" className='w-full' />
-        </div>
-        <div className='max-w-[50px] border border-gray-300 border-2 hover:bg-gray-300 rounded p-2 cursor-pointer'>
-          <img src={left} onClick={scrollLeft} alt="left" className='w-full' />
-        </div>
-    
-      </div>
+     
     </div>
 
     <div className='mt-[50px] overflow-x-auto scrollbar-hide flex gap-[20px]'>
@@ -80,8 +71,8 @@ const Home = () => {
            target="0.5ETH" 
            deadline="03/05/20205" 
            amountCollected="0.2" 
-           image={solarSystem}
-            handleClick={()=> console.log('clicked')}
+           image={demo}
+            handleClick={()=> navigate("/campaign-details")}
          />
         <FundCard
          owner="0x2817kjagdci7d6d"
@@ -100,7 +91,7 @@ const Home = () => {
            target="0.5ETH" 
            deadline="03/05/20205" 
            amountCollected="0.2" 
-           image={solarSystem}
+           image={demo}
             handleClick={()=> console.log('clicked')}
          />
         <FundCard

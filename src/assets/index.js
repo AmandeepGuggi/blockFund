@@ -15,9 +15,13 @@ import money from './money.svg';
 import loader from './loader.svg';
 import thirdweb from './thirdweb.png';
 import solarSystem from "./solarSystem.webp"
+import demo from "./demo.webp"
+import user from './user.svg'
 
 export {
   tagType,
+  demo,
+  user,
   createCampaign,
   dashboard,
   logo,

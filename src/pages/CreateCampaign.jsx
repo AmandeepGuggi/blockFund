@@ -4,10 +4,41 @@ import { ethers } from 'ethers';
 
 import { useStateContext } from '../context';
 import { money } from '../assets';
-import { CustomButton, FormField, Loader } from '../components';
+import { CustomButton, FormField, Loader, MiniFooter } from '../components';
 import { checkIfImage } from '../utils';
 
+const categories = [
+  {
+    main: "TECH & INNOVATION",
+    subcategories: ["Audio", " Camera Gear", "Education", "Energy & Green Tech", "Fashion & Wearables", "Food & Beverages", "Health & Fitness","Home" 
+      ,"Phones & Accessories", "Productivity", "Transportation", "Travel & Outdoors" , "Other Innovative Products"
+      ],
+  },
+  {
+    main: "CREATIVE WORKS",
+    subcategories: ["Art", "Comics", "Dance & Theatre", "Film", "Music", "Photography", "Podcasts, Blogs & Vlogs"
+      ,"Web Series & TV Shows"
+    ],
+  },
+  {
+    main: "COMMUNITY PROJECTS",
+    subcategories: ["Culture", "Environment", "Human Rights", "Wellness",
+      "Medical Assistance", "Disaster Relief", "Animal Welfare", "Other Community Projects"
+    ],
+  },
+];
+
 const CreateCampaign = () => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState(null);
+  const [selectedSubcategory, setSelectedSubcategory] = useState(null);
+
+  const handleSelect = (main, sub) => {
+    setSelectedCategory(main);
+    setSelectedSubcategory(sub);
+    setIsOpen(false); // Close dropdown after selection
+  };
+
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const { createCampaign } = useStateContext();
@@ -17,7 +48,9 @@ const CreateCampaign = () => {
     description: '',
     target: '', 
     deadline: '',
-    image: ''
+    image: '',
+    location: '',
+    tags: ''
   });
 
   const handleFormFieldChange = (fieldName, e) => {
@@ -49,12 +82,19 @@ const CreateCampaign = () => {
       </div>
 
       <form onSubmit={handleSubmit} className="w-full mt-[65px] flex flex-col gap-[30px]">
+        <div>
+          <h1 className='text-[#0d0d0e] text-2xl mb-2 '>
+            Basics
+          </h1>
+          <p className='text-[#6d7383] font-extralight text-xl '>Make a good first impression: introduce your campaign objectives and entice people to learn more. This basic information will represent your campaign on your campaign page, on your campaign card, and in searches.</p>
+        </div>
         <div className="flex flex-wrap gap-[40px]">
           <FormField 
             labelName="Your Name *"
             placeholder="John Doe"
             inputType="text"
             value={form.name}
+            tagDescription="Campaign holder's name"
             handleChange={(e) => handleFormFieldChange('name', e)}
           />
           <FormField 
@@ -62,15 +102,19 @@ const CreateCampaign = () => {
             placeholder="Write a title"
             inputType="text"
             value={form.title}
+            tagDescription="What is the title of your campaign?"
             handleChange={(e) => handleFormFieldChange('title', e)}
           />
         </div>
+
+       
 
         <FormField 
             labelName="Story *"
             placeholder="Write your story"
             isTextArea
             value={form.description}
+            tagDescription=""
             handleChange={(e) => handleFormFieldChange('description', e)}
           />
 
@@ -95,6 +139,24 @@ const CreateCampaign = () => {
             handleChange={(e) => handleFormFieldChange('deadline', e)}
           />
         </div>
+        <div className="flex flex-wrap gap-[40px]">
+          <FormField 
+            labelName="Location *"
+            placeholder="Location"
+            inputType="text"
+            value={form.location}
+            tagDescription="Choose the location where you are running the campaign.This Location will be visible on your Campaign Page for your audience to see."
+            handleChange={(e) => handleFormFieldChange('name', e)}
+          />
+          <FormField 
+            labelName="Tags *"
+            placeholder="Enter a few tags for your campaign"
+            inputType="text"
+            value={form.tags}
+            tagDescription="Enter up to five keywords that best describe your campaign. These tags will help with organization and discoverability."
+            handleChange={(e) => handleFormFieldChange('title', e)}
+          />
+        </div>
 
         <FormField 
             labelName="Campaign image *"
@@ -103,6 +165,47 @@ const CreateCampaign = () => {
             value={form.image}
             handleChange={(e) => handleFormFieldChange('image', e)}
           />
+        
+        <div className="relative  w-full  mt-5">
+      {/* Select Category Button */}
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        className="w-full px-4 py-3.5  border rounded-md flex justify-between items-center"
+      >
+        <p>
+          {selectedCategory && selectedSubcategory
+            ? `${selectedCategory} - ${selectedSubcategory}`
+            : "Select Category"}
+        </p>
+        <span>{isOpen ? "▲" : "▼"}</span>
+      </button>
+
+      {/* Dropdown Content */}
+      {isOpen && (
+        <div className="absolute left-0 mt-2 w-full bg-white border shadow-lg p-4 grid grid-cols-3 gap-4">
+          {categories.map((category, index) => (
+            <div key={index}>
+              <h3 className="font-semibold mb-2">{category.main}</h3>
+              {category.subcategories.map((sub, subIndex) => (
+                <button
+                  key={subIndex}
+                  className="block py-1 text-gray-600 hover:bg-gray-100 w-full text-left px-2 rounded"
+                  onClick={() => handleSelect(category.main, sub)}
+                >
+                  {sub}
+                </button>
+              ))}
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  
+       
+
+          <div>
+
+          </div>
 
           <div className="flex justify-center items-center mt-[40px]">
             <CustomButton 
@@ -111,8 +214,11 @@ const CreateCampaign = () => {
               styles="bg-[#1dc071]"
             />
           </div>
+
+
       </form>
     </div>
+    <MiniFooter />
     </div>
   )
 }

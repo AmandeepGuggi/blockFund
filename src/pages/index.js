@@ -5,3 +5,4 @@ export { default as Dashboard } from './Dashboard';
 export { default as CreateCampaign } from './CreateCampaign';
 export { default as CampaignDetails } from './CampaignDetails';
 export { default as AllCampaigns } from './AllCampaigns';
+export { default as CampaignJankari } from './CampaignJankari';

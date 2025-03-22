@@ -3,26 +3,11 @@ import CustomButton from './CustomButton'
 
 import { FaFacebook,FaGithub,FaWhatsapp, FaTwitter, FaInstagram, FaLinkedin } from 'react-icons/fa';
 
-const Footer = () => {
+const MiniFooter = () => {
   return (
     <div className='bg-[#1f0733] text-white '>
-      <div className='flex mb-20 flex-col justify-center items-center mx-[100px]'>
-        <h2 className='text-4xl mt-[80px] mb-[40px]'>Get the newest campaigns in your inbox</h2>
-        <h3 className='text-xl mb-[20px] '>Exclusive weekly updates with new products, drops, and special offers</h3>
-        <div className='w-full mb-[10px] border-0 px-10 text-[20px] py-4 bg-[#4c385c] rounded '>
-          <input type="text" placeholder='enter your email' className='w-full border-0 outline-0' />
-        </div>
-        <div className='w-full mb-2 border-0 px-10 text-[20px] py-4 bg-[#e50f75] rounded '>
-          <button type="text" placeholder='enter your email' className='w-full border-0 outline-0' >SIGN ME UP</button>
-        </div>
-        <p className='text-[14px]'>By clicking <b>“Sign me up”</b> I have read and agree to BlockFund's <u>Terms of Use</u> and <u>Privacy Policy </u>.
-        This site is protected by reCAPTCHA and the Google Privacy Policy and Terms of Service apply.</p>
-        
-      </div>
-
-      <hr className='border-t-4 w-[75%] mx-auto border-[#2a133d]' />
-
-    <div className='flex justify-between mt-10 pb-10 gap-4 mx-20  flex-wrap'>
+     
+    <div className='flex justify-between pt-20 pb-10 gap-4 mx-20  flex-wrap'>
 
       <div className=' gap-20 flex flex-col max-w-[70%] '>
        <p className='text-xl mb-4'>Supporting needed, creators and creative communities since 2025</p>
@@ -98,4 +83,4 @@ const Footer = () => {
   )
 }
 
-export default Footer
+export default MiniFooter
