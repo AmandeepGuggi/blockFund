@@ -17,8 +17,16 @@ import thirdweb from './thirdweb.png';
 import solarSystem from "./solarSystem.webp"
 import demo from "./demo.webp"
 import user from './user.svg'
+import audio from './audio.svg'
+import energy from './energy.svg'
+import fitness from './fitness.svg'
+import game from './game.svg'
+import home from './home.svg'
+import phone from './phone.svg'
+import travel from './travel.svg'
 
 export {
+  audio, energy, fitness, game, home, phone, travel,
   tagType,
   demo,
   user,

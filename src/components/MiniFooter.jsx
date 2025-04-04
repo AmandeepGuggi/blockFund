@@ -9,7 +9,7 @@ const MiniFooter = () => {
      
     <div className='flex justify-between pt-20 pb-10 gap-4 mx-20  flex-wrap'>
 
-      <div className=' gap-20 flex flex-col max-w-[70%] '>
+      <div className=' gap-20 flex flex-col max-w-[40%] '>
        <p className='text-xl mb-4'>Supporting needed, creators and creative communities since 2025</p>
        <div>
         <p className='text-[20px] mb-3.5'>Follow us: </p>

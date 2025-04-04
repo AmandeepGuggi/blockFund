@@ -27,7 +27,7 @@ const CampaignJankari = () => {
                 <p className='text-2xl'> <b>5</b> backers</p>
             </div>
                    <div className="relative w-full h-[10px] rounded bg-[#3a3a43] mt-2">
-                            <div className="absolute h-full bg-[#4acd8d] rounded" style={{ width: '80%', maxWidth: '100%'}}>
+                            <div className="absolute h-full bg-[#4acd8d] rounded" style={{ width: '3%', maxWidth: '100%'}}>
                             </div>
                   </div>
             <div className='flex justify-between mt-2'  >
