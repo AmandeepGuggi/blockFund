@@ -2,10 +2,16 @@ import { Link } from "react-router";
 import CustomButton from "./CustomButton";
 import { search, thirdweb, user , logo, menu, home, game, travel, fitness, energy, phone, audio} from "../assets";
 import { useNavigate } from "react-router";
+import { useStateContext } from '../context';
+import { useDisconnect } from "@thirdweb-dev/react";
 import { useState } from "react";
+
+
 const Header = () => {
   const [toggle, setToggle] = useState(false)
   const navigate = useNavigate()
+  const { connect, address } = useStateContext();
+  const disconnect = useDisconnect();
   return (
     <header className=" w-full p-4 text-black z-10 bg-transparent">
       <div className="flex md:flex-row flex-col-reverse justify-between gap-6">
@@ -100,10 +106,12 @@ const Header = () => {
       <div className="sm:flex hidden text-black flex-row justify-end gap-4">
         <CustomButton 
           btnType="button"
-          title='Login'
-          styles='hover:bg-[#8c6dfd] px-[24px] py-[8px] border-[2px] border border-[#8c6dfd] text-black bg-transparent'
+          title={address ? 'Disconnect' : 'Connect'}
+          styles={ `hover:bg-[#8c6dfd] px-[24px] py-[8px]
+           border-[2px] border border-[#8c6dfd] text-black
+            bg-transparent `}
           handleClick={() => {
-            if(address) navigate('create-campaign')
+            if(address) disconnect()
             else connect()
           }}
         />

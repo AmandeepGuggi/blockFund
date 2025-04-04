@@ -6,3 +6,4 @@ export { default as CreateCampaign } from './CreateCampaign';
 export { default as CampaignDetails } from './CampaignDetails';
 export { default as AllCampaigns } from './AllCampaigns';
 export { default as CampaignJankari } from './CampaignJankari';
+export { default as CampaignTypes } from './CampaignTypes';
