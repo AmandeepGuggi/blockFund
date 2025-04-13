@@ -1,16 +1,59 @@
-import React from 'react'
+import React, {useState, useEffect} from 'react'
 import { demo, user } from '../assets'
 import MiniFooter from '../components/MiniFooter'
 
+import { useLocation, useNavigate } from 'react-router';
+import { ethers } from 'ethers';
+import { useStateContext } from '../context';
+import { CountBox, CustomButton, Loader } from '../components';
+import { calculateBarPercentage, daysLeft } from '../utils';
+import { thirdweb } from '../assets';
+
 const CampaignJankari = () => {
+   const { state } = useLocation();
+   console.log(state);
+    const navigate = useNavigate();
+    const { donate, getDonations, contract, address } = useStateContext();
+  
+    const [isLoading, setIsLoading] = useState(false);
+    const [amount, setAmount] = useState('');
+    const [donators, setDonators] = useState([]);
+  
+    const remainingDays = daysLeft(state.deadline);
+  
+    // const fetchDonators = async () => {
+    //   const data = await getDonations(state.pId);
+    //   setDonators(data);
+    // }
+  
+    // useEffect(() => {
+    //   if(contract) fetchDonators();
+    // }, [contract, address])
+  
+    // const handleDonate = async () => {
+    //   setIsLoading(true);
+  
+    //   await donate(state.pId, amount); 
+  
+    //   navigate('/')
+    //   setIsLoading(false);
+    // }
+
+    const [firstHalf, secondHalf] = [
+      state.description.slice(0, Math.floor(state.description.length / 2)),
+      state.description.slice(Math.floor(state.description.length / 2)),
+    ];
+  
   return (
-    <div >
+   <>
+   {isLoading && "...loading"}
+   <div >
        <div className='m-4 mx-10'>
        <div className='flex gap-5'>
-            <img src={demo} alt="demo" />
+            <img src={state.mediaFiles[0]} alt="demo" className='max-h-[600px] min-w-[700px] object-cover' />
             <div>
                 <p className='text-green-700 font-extrabold'>FUNDING</p>
-                <h1 className='text-[50px] font-extrabold font-georgia '>Help us open Wildlings Bookshop!</h1>
+                <h1 className='text-[50px] font-extrabold font-georgia '>{state.title}</h1>
                 <p className='text-2xl text-[#808191]'>Help us create a new little indie bookshop, mostly for kids, in Lexington KY.</p>
                 <div className='flex gap-4 items-center m-6'>
                     <div className='w-9 h-9  bg-[#e50f75] rounded-full '>
@@ -45,43 +88,36 @@ const CampaignJankari = () => {
         <hr className='my-4 border-gray-300 border-t-4'/>
 
         <div>
-            <h1 className='text-3xl mb-4'>Short Summary</h1>
-            <p className='font-extralight'>
-            Wildlings Bookshop is a new bookshop, mostly for kids, that is inspired by a love of nature, art, dreaming, and everyday magic. With your help, we are bringing this lovely little indie bookstore dream to the cozy Kenwick neighborhood and its bungalows, busy sidewalks, and nearby schools, shops, and restaurants. 
-            </p> <br />
-            <p className='font-extralight'>We believe that our communities need more places for kids, more bookshops, and more children’s books! Our mission is to highlight different voices and perspectives and connect with our community, sharing tales of kindness, acceptance, curiosity, creativity, and fun. </p>
-          <br />  <p className='font-extralight'>Our collection of books, paper goods, toys, art kits, and supplies for creating colorful crafts is picked to encourage new adventures. We plan to partner with other local groups doing things we believe in and focusing on the things we love: reading, making, art, music, movement, and play. We also plan to have kid snacks, coffee and tea, gift wrapping, and lots of things to add fun and ease to your days. 
 
+          <h1 className='text-4xl my-3'>Short summary</h1>
+        <p style={{ whiteSpace: 'pre-line' }}>
+  {firstHalf}
 </p>
-          <br />  <p className='font-extralight'>And most of all, we want to give this community a welcoming space for kids and their grown-ups that will be a beacon of light and positivity in our community, for the littlest among us to stop on their little daily journeys and find some everyday magic. </p>
 
-          <img src="https://c3.iggcdn.com/indiegogo-media-prod-cld/image/upload/c_fit,g_center,q_auto,f_auto,w_695/g7how7zsvncnoqypgzmb.png" alt="" />
+<div className="flex gap-1.5 flex-wrap">
+{state.mediaFiles.map((url)=>(
+   <img src={url} alt="" />
+))}
+</div>
+    {/* <img src={state.mediaFiles[0]} alt="" /> */}
 
-          <h1 className='text-3xl mb-4'>The Impact</h1>
-            <p className='font-extralight'>Why are we doing this?</p>
-         <br /> <p className='font-extralight'>
-          <b>Children's books are magic! </b> They tackle things like how to just be in this world. With imagination and love and open hearts and minds. They remind us as adults that we were once learning how to maneuver our way through lives. Still are. Books define our childhoods, and they're infinitely better held in little hands rather than on a screen.
-          </p>
-         <br /> <p className='font-extralight'>
-         <b> We need more places for kids!</b> With our own wildlings in tow, we believe that we need more welcoming places in our community where kids are celebrated. Parents and caregivers need this too; casual spaces that can easily fit within the rhythms of our daily life. 
-
-
-          </p><br />
-          <p className='font-extralight'>
-         <b>We need more bookshops! </b> Indie bookshops create community, resist censorship, and keep money out of the pockets of billionaires and instead back into our communities. Bookshops pull us out of our busy worlds for a few minutes to take a breath, meet up with friends, chat about lovely books, find something unexpected, find a sweet gift. They also get us out of the house for events that bring us together for more stories, more dreaming, and play!
-
-
-          </p> <br />
-          <p className='font-extralight'>
-          Wildlings Bookshop will give us a place to step out of our busy lives, get together for some silliness, some coziness, some new adventures. So let's slow down for a minute. Let's build this space together. Let's chat with coffee and kid snacks over delightful illustrations and unexpected storytelling and crafty art supplies and paper goods and all of those simple things that make our world beautiful. Let's find some gem of a toy for your "forever" collection.
-          </p>
-
+    <p style={{ whiteSpace: 'pre-line' }} >
+      {secondHalf}
+    </p>
+      
         </div>
+        <hr className='my-12 text-gray-400' />
+
+      <h2 className='text-[20px] mb-10'>Category: <span className='bg-gray-300 px-4 py-2 rounded-3xl'>{state.category}</span> &nbsp;
+      <span className='bg-gray-300 px-4 py-2 rounded-3xl'>{state.subCategory}</span></h2>
+
        </div>
 
         <MiniFooter />
 
     </div>
+   </>
+  
   )
 }
 

@@ -3,19 +3,21 @@ import React from 'react';
 import { tagType, thirdweb } from '../assets';
 import { daysLeft } from '../utils';
 
-const FundCard = ({ owner, title, description, target, deadline, amountCollected, image, handleClick }) => {
+const FundCard = ({ owner, title, mediaFiles, category, subCategory, workProof, videoURL, description, target, deadline, amountCollected, image, handleClick }) => {
   const remainingDays = daysLeft(deadline);
   
   return (
-    <div className="sm:w-[288px] group relative w-full rounded-[15px]  cursor-pointer" onClick={handleClick}>
-      <img src={image} alt="fund" className="w-full h-[250px] object-cover rounded-[15px] group-hover:opacity-[0.8] "/>
-    <div className='absolute hidden transition-all rounded group-hover:flex flex mx-auto bg-amber-50 w-[90%] items-center left-[12px] py-[15px] top-[40%] justify-center'>
+    <div className="sm:w-[288px] shadow-violet-300 hover:-translate-y-2 transition-transform duration-300  shadow-2xl group  relative w-full rounded-[15px]  cursor-pointer" onClick={handleClick}>
+     {mediaFiles &&  <img src={mediaFiles[0]} alt="fund" className="w-full h-[250px] object-cover rounded-[15px] group-hover:opacity-[0.8] "/>}
+     
+
+    <div className='absolute hidde transition-all rounded group-hover:flex flex mx-auto bg-amber-50 w-[90%] items-center left-[12px] py-[15px] top-[40%] justify-center'>
       <p className='text-xl'>Visit</p>
       </div>
       <div className="flex flex-col p-4">
         <div className="flex flex-row items-center mb-[18px]">
           <img src={tagType} alt="tag" className="w-[17px] h-[17px] object-contain"/>
-          <p className="ml-[12px] mt-[2px] font-epilogue font-medium text-[12px] text-[#808191] text-black">Education</p>
+          <p className="ml-[12px] mt-[2px] font-epilogue font-medium text-[12px] text-[#808191] text-black">{category}-{subCategory}</p>
         </div>
 
         <div className="block">

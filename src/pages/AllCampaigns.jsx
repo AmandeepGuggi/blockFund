@@ -14,6 +14,7 @@ const AllCampaigns = () => {
   
     <Sidebar />
    <Navbar />
+   
    </section>
 
    <Footer />

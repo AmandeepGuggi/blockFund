@@ -1,29 +1,67 @@
 import React from 'react';
-import ReactDOM from 'react-dom/client';
-import { BrowserRouter as Router } from 'react-router';
+import {createRoot} from 'react-dom/client';
+import { createBrowserRouter, RouterProvider } from 'react-router';
 import { ChainId, ThirdwebProvider } from '@thirdweb-dev/react';
 
 import { StateContextProvider } from './context';
 import App from './App';
 import './index.css';
 
+import { Home, Dashboard, Profile, CampaignDetails, AllCampaigns, CreateCampaign, CampaignJankari, CampaignTypes} from './pages';
+
 const activeChain = {
   chainId: 11155111,
-  rpc: ["https://rpc.ankr.com/eth_sepolia"], 
+  rpc: ["https://rpc.ankr.com/eth_sepolia/0b1b7d3941e08df10b795fd099f4c3e00d3461a1ed58bcb3b3369ad3c793afb6"], 
   nativeCurrency: { name: "Sepolia ETH", symbol: "ETH", decimals: 18 },
   shortName: "sepolia",
   slug: "sepolia",
   testnet: true,
 };
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+const router = createBrowserRouter([
+  {
+    path: '/',
+    element: <App />,
+    children: [
+      {
+        path: '/',
+        element: <Home />,
+      },
+      {
+        path: '/dashboard',
+        element: <Dashboard />,
+      },
+      {
+        path: '/profile',
+        element: <Profile />,
+      },
+      {
+        path: '/create-campaign',
+        element: <CampaignTypes />,
+      },
+      {
+        path: '/all-campaigns',
+        element: <AllCampaigns />,
+      },
+      {
+        path: '/campaign-details/:id',
+        element: <CampaignJankari />,
+      },
+      {
+        path: '/form',
+        element: <CreateCampaign />,
+      },
+    ]
+  }
+])
+
+
+const root = createRoot(document.getElementById('root'));
 
 root.render(
   <ThirdwebProvider  supportedChains={[activeChain]} desiredChainId={11155111}> 
-    {/* <Router> */}
       <StateContextProvider>
-        <App />
+       <RouterProvider router={router} />
       </StateContextProvider>
-    {/* </Router> */}
   </ThirdwebProvider> 
 )

@@ -1,11 +1,8 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import HeroSection from '../components/HeroSection';
 import { left, right } from '../assets';
-import { FundCard } from '../components';
 import { solarSystem, demo } from '../assets';
-import { useRef } from 'react';
-import {Footer} from '../components';
-import {CustomButton} from '../components';
+import {CustomButton, Carousel, FundCard, Footer} from '../components';
 import { useNavigate } from 'react-router';
 
 
@@ -36,15 +33,51 @@ const Home = () => {
     setSelected(i)
 }
   
+const slides = [
+ {
+  src:"https://c2.iggcdn.com/indiegogo-media-prod-cld/image/upload/c_fit,g_center,q_auto,f_auto,w_1001/mlmeyqop7fxsvjjz8ipv.png",
+  info: "Mentorship in Robotics: Empowering the next generation of innovators"
+ },
+ {
+  src:"https://c3.iggcdn.com/indiegogo-media-prod-cld/image/upload/c_fit,g_center,q_auto,f_auto,w_1001/uabd5clnsctl1vziphcl.jpg",
+  info: "Nature’s wonders: Where animals inspire curiosity and learning."
+ },
+ {
+  src:"https://c4.iggcdn.com/indiegogo-media-prod-cld/image/upload/c_fit,g_center,q_auto,f_auto,w_1001/tpkbkoudhggwxabbzf7p.jpg",
+  info: "Above it all: Capturing new perspectives with cutting-edge drone technology."
+ },
+ {
+  src:"https://c0.iggcdn.com/indiegogo-media-prod-cld/image/upload/c_fit,g_center,q_auto,f_auto,w_1001/ujgrcgnjvfhwd7c2tkc7.jpg",
+  info: "Time at your fingertips: Seamlessly blending style and technology."
+ },
+ {
+  src:"https://c0.iggcdn.com/indiegogo-media-prod-cld/image/upload/c_fit,g_center,q_auto,f_auto,w_1001/ujgrcgnjvfhwd7c2tkc7.jpg",
+  info: "Time at your fingertips: Seamlessly blending style and technology."
+ },
+ 
+]
   
 
   return (
    
     <>
 
-    <div className='h-scrn bg-[url("./assets/quantam.webp")] bg-cover bg-center flex items-center justify-center text-white'>
+    {/* <div className='h-scrn bg-[url("./assets/quantam.webp")] bg-cover bg-center flex items-center justify-center text-white'>
     <HeroSection />
+    </div> */}
+    <div className='min-w-full z-1'>
+      <Carousel AutoSlide={true} >
+      {
+        slides.map((s, i) => (
+         <div key={i} className='w-full object-cover min-w-full relative'>
+          <img  width='100%' className='w-full object-cover min-w-full z-10 ' src={s.src} />
+          <h1 className='absolute font-serif min-w-[500px] w-[800px] text-[60px] z-20  top-3/6 left-1/10 transform  text-purple-500 font-bold'>{s.info}</h1>
+         </div>
+        ))
+      }
+      </Carousel>
     </div>
+
 
    <section className='mx-[50px]'>
    <div className='mt-[100px]   flex justify-between items-center'>

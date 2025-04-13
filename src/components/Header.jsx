@@ -22,18 +22,15 @@ const Header = () => {
     
       
 
-<div class="relative hidden sm:block group">
+<div className="relative hidden sm:block group">
   <p className=" text-black font-extralight rounded-">Menu</p>
 
-  <div class="absolute max-w-full min-w-screen
-   left-[-257px] top-[150%]  mt-2 w-48 bg-white border-t
+  <div className="absolute z-999 max-w-full min-w-screen
+   left-[-260px] top-[150%]  mt-2 w-48 bg-white border-t
     border-gray-300 shadow-lg  transform 
   scale-y-0 origin-top transition-transform duration-300 
   ease-in-out group-hover:scale-y-100 ">
-  {/* <div class="absolute left-0 mt-2 w-48 bg-white border
-   rounded-md shadow-lg transform 
-  scale-y-0 origin-top transition-transform duration-300 
-  ease-in-out group-hover:scale-y-100"> */}
+
 
   <div className="m-6 mx-20 flex gap-5 items-center justify-center text-xl ">
     <p className="bg-gray-300 cursor-pointer text-[12px] justify-center px-3 py-1 rounded-3xl items-center font-extralight flex gap-1 items-center"><span className="w-[24px]"><img className="w-full" src={home} alt="home" /></span> <span>Home</span> </p>

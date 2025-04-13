@@ -10,3 +10,5 @@ export { default as Header } from './Header';
 export { default as Footer } from './Footer';
 export { default as MiniFooter } from './MiniFooter';
 export { default as Uploader } from './Uploader';
+export { default as Carousel } from './Carousel';
+export { default as HeroSection } from './HeroSection';

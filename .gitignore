@@ -1,4 +1,4 @@
 /node_modules
 /src/client.jsx
-/src/utils
-/src/context
+.env
+rgh.txt
