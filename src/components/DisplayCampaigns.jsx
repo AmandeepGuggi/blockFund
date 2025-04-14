@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router';
 import { v4 as uuidv4 } from "uuid";
 import FundCard from './FundCard';
 import { loader } from '../assets';
+import { useFilter } from '../context/FilterContext';
 
 const DisplayCampaigns = ({ title, isLoading, campaigns }) => {
 
@@ -11,10 +12,23 @@ const DisplayCampaigns = ({ title, isLoading, campaigns }) => {
   const handleNavigate = (campaign) => {
     navigate(`/campaign-details/${campaign.pid}`, { state: campaign })
   }
+  const {filters} = useFilter();
+
+  const searchTerm = filters.searchTerm.toLowerCase();
+  // const searchTerm2 = filters.searchTerm2.toLowerCase();
+  const filteredCampaigns = campaigns.filter((campaign)=> {
+    return (
+      campaign.title.toLowerCase().includes(searchTerm) ||
+      campaign.category.toLowerCase().includes(searchTerm) ||
+      campaign.subCategory.toLowerCase().includes(searchTerm) 
+    )
+  })
+ 
+
   
   return (
     <div>
-      <h1 className="font-epilogue font-semibold text-[18px] text-black text-left">{title} ({campaigns.length})</h1>
+      <h1 className="font-epilogue font-semibold text-[18px] text-black text-left">{title} ({filteredCampaigns.length})</h1>
 
       <div className="flex flex-wrap mt-[20px] gap-[26px]">
         {isLoading && (
@@ -27,12 +41,13 @@ const DisplayCampaigns = ({ title, isLoading, campaigns }) => {
           </p>
         )}
 
-        {!isLoading && campaigns.length > 0 && campaigns.map((campaign) => 
+        {!isLoading && campaigns.length > 0 && filteredCampaigns.reverse().map((campaign) => 
         <FundCard 
           key={uuidv4()}
           {...campaign}
           handleClick={() => handleNavigate(campaign)}
         />)}
+ 
       </div>
     </div>
   )

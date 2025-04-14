@@ -8,6 +8,7 @@ import sun from './sun.svg';
 import withdraw from './withdraw.svg';
 import tagType from './type.svg';
 import search from './search.svg';
+import blackSearch from './blackSearch.svg';
 import menu from './menu.svg';
 import right from './right.svg';
 import left from './left.svg';
@@ -39,6 +40,7 @@ export {
   sun,
   withdraw,
   search,
+  blackSearch,
   menu,
   money,
   loader,

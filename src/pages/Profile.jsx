@@ -21,11 +21,13 @@ const Profile = () => {
   }, [address, contract]);
 
   return (
-    <DisplayCampaigns 
+   <div className='m-10'>
+     <DisplayCampaigns 
       title="All Campaigns"
       isLoading={isLoading}
       campaigns={campaigns}
     />
+   </div>
   )
 }
 

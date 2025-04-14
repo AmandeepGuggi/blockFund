@@ -1,6 +1,9 @@
 import React, {useState, useEffect} from 'react'
 import { demo, user } from '../assets'
 import MiniFooter from '../components/MiniFooter'
+import DonateSection from '../components/Donation';
+import ManageTiers from '../components/ManageTier';
+import CampaignTiersSection from './DonateEx';
 
 import { useLocation, useNavigate } from 'react-router';
 import { ethers } from 'ethers';
@@ -8,10 +11,11 @@ import { useStateContext } from '../context';
 import { CountBox, CustomButton, Loader } from '../components';
 import { calculateBarPercentage, daysLeft } from '../utils';
 import { thirdweb } from '../assets';
+import Modal from '../components/modal';
 
 const CampaignJankari = () => {
+  const [isOpen, setIsOpen] = useState(false)
    const { state } = useLocation();
-   console.log(state);
     const navigate = useNavigate();
     const { donate, getDonations, contract, address } = useStateContext();
   
@@ -21,28 +25,38 @@ const CampaignJankari = () => {
   
     const remainingDays = daysLeft(state.deadline);
   
-    // const fetchDonators = async () => {
-    //   const data = await getDonations(state.pId);
-    //   setDonators(data);
-    // }
+    const fetchDonators = async () => {
+      const data = await getDonations(state.pId);
+      setDonators(data);
+    }
   
-    // useEffect(() => {
-    //   if(contract) fetchDonators();
-    // }, [contract, address])
+    useEffect(() => {
+      if(contract) fetchDonators();
+    }, [contract, address])
   
-    // const handleDonate = async () => {
-    //   setIsLoading(true);
+    const handleDonate = async () => {
+      setIsLoading(true);
   
-    //   await donate(state.pId, amount); 
+      await donate(state.pId, amount); 
   
-    //   navigate('/')
-    //   setIsLoading(false);
-    // }
+      navigate('/')
+      setIsLoading(false);
+    }
 
     const [firstHalf, secondHalf] = [
       state.description.slice(0, Math.floor(state.description.length / 2)),
       state.description.slice(Math.floor(state.description.length / 2)),
     ];
+
+    // Example donateToTier function
+const donateToTier = async (campaignId, tierIndex, amount) => {
+  const contract = useContractInstance(); // Import your contract instance logic
+  const tx = await contract.call("donateToCampaign", [campaignId, tierIndex], {
+    value: amount, // BigNumber
+  });
+  await tx.wait();
+};
+
   
   return (
    <>
@@ -66,20 +80,20 @@ const CampaignJankari = () => {
                 </div>
 
             <div className='flex justify-between'>
-                <p className='text-2xl'> <b>₹151,174</b> INR </p> 
-                <p className='text-2xl'> <b>5</b> backers</p>
+                <p className='text-2xl'> <b> {state.amountCollected.toString()}ETH </b>  </p> 
+                <p className='text-2xl'> <b>{donators.length}</b> backers</p>
             </div>
-                   <div className="relative w-full h-[10px] rounded bg-[#3a3a43] mt-2">
-                            <div className="absolute h-full bg-[#4acd8d] rounded" style={{ width: '3%', maxWidth: '100%'}}>
+                   <div className="relative w-full h-[10px]  rounded bg-[#3a3a43] mt-2">
+                            <div className="absolute h-full bg-[#4acd8d] rounded" style={{ width: `${calculateBarPercentage(state.target, state.amountCollected)}`, maxWidth: '100%'}}>
                             </div>
                   </div>
             <div className='flex justify-between mt-2'  >
-                <p className='text-2xl'> 3% of ₹4,299,596 </p> 
-                <p className='text-2xl'> <b>36</b> days left</p>
+                <p className='text-2xl'> {calculateBarPercentage(state.target, state.amountCollected)} of {state.target.toString()}ETH </p> 
+                <p className='text-2xl'> <b>{remainingDays}</b> days left</p>
             </div>
 
             <div className='w-full my-4 text-white mb-[10px] border-0 px-10 text-[20px] py-4 bg-[#281439] rounded '>
-          <button type="button"  className='w-full border-0 outline-0' >Fund Now</button>
+          <button type="button"  className='w-full border-0 outline-0 cursor-pointer' onClick={()=> setIsOpen(true)} >Fund Now</button>
           </div>
 
             </div>
@@ -87,19 +101,19 @@ const CampaignJankari = () => {
 
         <hr className='my-4 border-gray-300 border-t-4'/>
 
-        <div>
+      
 
+        <div>
           <h1 className='text-4xl my-3'>Short summary</h1>
         <p style={{ whiteSpace: 'pre-line' }}>
   {firstHalf}
 </p>
 
 <div className="flex gap-1.5 flex-wrap">
-{state.mediaFiles.map((url)=>(
-   <img src={url} alt="" />
+{state.mediaFiles.map((url, i)=>(
+   <img key={i} src={url} alt="" />
 ))}
 </div>
-    {/* <img src={state.mediaFiles[0]} alt="" /> */}
 
     <p style={{ whiteSpace: 'pre-line' }} >
       {secondHalf}
@@ -108,12 +122,54 @@ const CampaignJankari = () => {
         </div>
         <hr className='my-12 text-gray-400' />
 
-      <h2 className='text-[20px] mb-10'>Category: <span className='bg-gray-300 px-4 py-2 rounded-3xl'>{state.category}</span> &nbsp;
-      <span className='bg-gray-300 px-4 py-2 rounded-3xl'>{state.subCategory}</span></h2>
+      <div className='flex items-center gap-3 mb-6'>
+      <h4 className=" font-epilogue font-semibold text-[18px]
+         text-black uppercase">Creator:</h4>
+        <div className="mt-[20px] flex flex-row items-center flex-wrap gap-[14px]">
+              <div className="w-[52px] h-[52px] flex items-center justify-center rounded-full bg-[#2c2f32] cursor-pointer">
+                <img src={thirdweb} alt="user" className="w-[60%] h-[60%] object-contain"/>
+              </div>
+              <div>
+                <h4 className="font-epilogue font-semibold text-[14px] text-black break-all">{state.owner}</h4>
+                <p className="mt-[4px] font-epilogue font-normal text-[12px] text-[#808191]">10 Campaigns</p>
+              </div>
+            </div>
+      </div>
 
+      <h2 className='font-epilogue font-semibold text-[18px] text-black uppercase mb-10'>Category: <span className='bg-gray-300 px-4 py-2 rounded-3xl font-epilogue font-semibold text-[13px] text-black uppercase"'>{state.category}</span> &nbsp;
+      <span className='bg-gray-300 px-4 py-2 rounded-3xl font-epilogue font-semibold text-[13px] text-black uppercase"'>{state.subCategory}</span></h2>
+
+
+      <div>
+            <h4 className="font-epilogue font-semibold text-[18px] text-black uppercase">Donators:</h4>
+
+              <div className="mt-[20px] flex flex-col gap-4">
+                {donators.length > 0 ? donators.map((item, index) => (
+                  <div key={`${item.donator}-${index}`} className="flex justify-between items-center gap-4">
+                    <p className="font-epilogue font-normal text-[16px] text-[#b2b3bd] leading-[26px] break-ll">{index + 1}. {item.donator}</p>
+                    <p className="font-epilogue font-normal text-[16px] text-[#808191] leading-[26px] break-ll">{item.donation}</p>
+                  </div>
+                )) : (
+                  <p className="font-epilogue font-normal text-[16px] text-[#808191] leading-[26px] text-justify">No donators yet. Be the first one!</p>
+                )}
+              </div>
+          </div>
+
+        
        </div>
 
         <MiniFooter />
+
+        <Modal
+        isOpen={isOpen}
+        setIsOpen={setIsOpen}
+        header={<p className="text-2xl font-bold text-red-400">Donate Now</p>}
+        footer={<div className='flex justify-end'><button onClick={() => setIsOpen(false)} className='font-bold bg-slate-300 px-4 py-2 rounded'>cancel</button></div>}
+      >
+      <DonateSection
+          campaignId={state.pId}
+          />
+      </Modal>
 
     </div>
    </>

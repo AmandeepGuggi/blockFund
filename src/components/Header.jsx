@@ -5,10 +5,12 @@ import { useNavigate } from "react-router";
 import { useStateContext } from '../context';
 import { useDisconnect } from "@thirdweb-dev/react";
 import { useState } from "react";
+import { useFilter } from "../context/FilterContext";
 
 
 const Header = () => {
-  const [toggle, setToggle] = useState(false)
+  const [toggle, setToggle] = useState(false);
+  const { filters, updateFilter} = useFilter();
   const navigate = useNavigate()
   const { connect, address } = useStateContext();
   const disconnect = useDisconnect();
@@ -19,11 +21,8 @@ const Header = () => {
         <h1 onClick={()=> navigate("/")} className='cursor-pointer text-[34px] font-extrabold text-[#e50f75] hidden sm:block'>
           BLOCKFUND
         </h1>
-    
-      
-
 <div className="relative hidden sm:block group">
-  <p className=" text-black font-extralight rounded-">Menu</p>
+  <p className=" text-black font-extralight text-[20px] rounded-">Menu</p>
 
   <div className="absolute z-999 max-w-full min-w-screen
    left-[-260px] top-[150%]  mt-2 w-48 bg-white border-t
@@ -90,18 +89,35 @@ const Header = () => {
 </div>
 
 
-        <p className='text-[20px] font-extralight hidden sm:block'>BlockShop</p>
+       
       </div>
       <div className="lg:flex-1 border hidden md:flex flex-row max-w-[458px] py-2 pl-4 pr-2 h-[52px] bg-[#1c1c24 backdrop-blur-md focus:outline-none focus:ring-2 focus:ring-white/50  rounded-[100px]">
-        <input type="text" placeholder="Search crowdfunding" className="flex w-full font-epilogue font-normal text-[14px] placeholder:text-[#4b5264] text-white bg-transparent outline-none" />
+        <input type="text" placeholder="Search crowdfunding"
+       
+        className="flex w-full font-epilogue font-normal text-[14px] placeholder:text-[#4b5264] text-black/80 bg-transparent outline-none" />
         
-        <div className="w-[72px] h-full rounded-[20px] bg-[#4acd8d] flex justify-center items-center cursor-pointer">
+        <div onClick={()=> navigate("/all-campaigns")}
+         className="w-[72px] h-full rounded-[20px] bg-[#4acd8d] flex justify-center items-center cursor-pointer">
           <img src={search} alt="search" className="w-[15px] h-[15px] object-contain"/>
         </div>
       </div>
-
-      <div className="sm:flex hidden text-black flex-row justify-end gap-4">
-        <CustomButton 
+    
+      <div className="flex flex-col">
+       <div className="sm:flex hidden items-center text-black flex-row justify-end gap-4">
+         {/* {address && ( <p className="text-black bg-gray-200 px-2 rounded truncate max-w-[210px] text-middle ">User: {address}</p>)} */}
+         <button
+      type="button"
+      className={`font-epilogue font-semibold text-[16px] 
+        hover:bg-[#8c6dfd] px-[24px] py-[4px]
+         border-[#8c6dfd] max-w-[200px] min-w-[200px] truncate
+         bg-transparent border-[2px]
+        leading-[26px] text-black max-h-[40px] rounded ${address? "visible": "invisible"} `}
+      
+      onClick={()=>{}}
+    >
+      User: {address}
+    </button>
+       <CustomButton 
           btnType="button"
           title={address ? 'Disconnect' : 'Connect'}
           styles={ `hover:bg-[#8c6dfd] px-[24px] py-[8px]
@@ -114,15 +130,14 @@ const Header = () => {
         />
 
         <Link to="/profile">
-          <div className="w-[52px] h-[52px] rounded-full bg-[#2c2f32] flex justify-center items-center cursor-pointer">
+          <div title="profile" className="w-[52px] h-[52px] rounded-full bg-[#2c2f32] flex justify-center items-center cursor-pointer">
             <img src={thirdweb} alt="user" className="w-[60%] h-[60%] object-contain" />
           </div>
         </Link>
+       </div>
+          
       </div>
       </div>
-
-         
-
     </header>
   );
 };

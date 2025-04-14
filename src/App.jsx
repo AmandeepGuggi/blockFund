@@ -1,15 +1,16 @@
-
 import React from 'react';
 import { Outlet} from 'react-router';
 import {Header } from './components';
+import { useState } from 'react';
+import { FilterProvider } from './context/FilterContext';
 
 function App() {
-
+  const [query, setQuery] = useState('')
   return (
-    <>
-      <Header />
-      <Outlet />
-  </>
+    <FilterProvider>
+      <Header search={ [query, setQuery] } />
+      <Outlet search={ [query, setQuery] } />
+  </FilterProvider>
   );
 }
 
