@@ -7,7 +7,8 @@ import { EditionMetadataWithOwnerOutputSchema } from '@thirdweb-dev/sdk';
 const StateContext = createContext();
 
 export const StateContextProvider = ({ children }) => {
-  const { contract } = useContract('0x7E0EcF65c99Cb2Fab59BFF83007c1B7Bab3f8536');
+  // const { contract } = useContract('0x7E0EcF65c99Cb2Fab59BFF83007c1B7Bab3f8536');
+  const { contract } = useContract('0x575f48Ad91Fe6B56c973D652a61fF4C04af8ef0a');
   const { mutateAsync: createCampaign } = useContractWrite(contract, 'createCampaign');
 
   const address = useAddress();
@@ -18,6 +19,7 @@ export const StateContextProvider = ({ children }) => {
       const data = await createCampaign({
 				args: [
 					address, // owner
+          form.name,
 					form.title, // title
 					form.description, // description
 					form.target,
@@ -42,6 +44,7 @@ export const StateContextProvider = ({ children }) => {
 
     const parsedCampaings = campaigns.map((campaign, i) => ({
       owner: campaign.owner,
+      name: campaign.name,
       title: campaign.title,
       description: campaign.description,
       target: ethers.utils.formatEther(campaign.target.toString()),
@@ -50,7 +53,7 @@ export const StateContextProvider = ({ children }) => {
       videoURL: campaign.videoURL,
       category: campaign.category,
       subCategory: campaign.subCategory,
-      amountCollected: ethers.utils.formatEther(campaign.amountCollected.toString()),
+      amountCollected: ethers.utils.formatEther(campaign.amountCollected),
       workProof: campaign.workProof,
       pId: i
     }));

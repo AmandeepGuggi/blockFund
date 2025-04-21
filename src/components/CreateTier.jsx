@@ -7,7 +7,8 @@ const CreateTier = ({ campaignId }) => {
   const [tierReward, setTierReward] = useState('');
   const [loading, setLoading] = useState(false);
 
-  const { contract } = useContract('0x7E0EcF65c99Cb2Fab59BFF83007c1B7Bab3f8536');
+//   const { contract } = useContract('0x7E0EcF65c99Cb2Fab59BFF83007c1B7Bab3f8536');
+  const { contract } = useContract('0x575f48Ad91Fe6B56c973D652a61fF4C04af8ef0a');
 
   const handleSubmit = async (e) => {
     e.preventDefault();

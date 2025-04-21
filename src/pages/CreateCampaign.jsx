@@ -49,6 +49,7 @@ const CreateCampaign = () => {
     category: '',
     subCategory: '',
     workProof: '',
+    keywords: '',
   });
 
  
@@ -159,7 +160,7 @@ const CreateCampaign = () => {
     await createCampaign({...finalForm, target: ethers.utils.parseUnits(finalForm.target, 18)});
   
     setIsLoading(false);
-    // navigate('/home');
+    navigate('/all-campaigns');
   };
   
   return (
@@ -173,8 +174,7 @@ const CreateCampaign = () => {
       </div>
 
       <form onSubmit={handleSubmit} className="w-full mt-[65px] flex flex-col gap-[30px]">
-        {/* Add all your FormField components here as you had before */}
-        {/* Keep same styling, description, labelName, etc. */}
+     
 
         <div className="flex flex-wrap gap-[40px]">
           <FormField
@@ -200,7 +200,7 @@ const CreateCampaign = () => {
           placeholder="Write your story"
           isTextArea
           value={form.description}
-          tagDescription=""
+          tagDescription="Write a brief, interactive story about your project. "
           handleChange={(e) => handleFormFieldChange('description', e)}
         />
 
@@ -295,6 +295,15 @@ const CreateCampaign = () => {
           tagDescription="Please upload photos/videos showcasing your project."
           handleChange={(e) => setMedia([...e.target.files])}
         />
+
+         <FormField
+            labelName="keywords "
+            placeholder="Enter some keywords seprated by coma"
+            tagDescription="Used for filtering or search but not shown to users directly."
+            inputType="text"
+            value={form.keywords}
+            handleChange={(e) => handleFormFieldChange('keywords', e)}
+          />
 
 <p className=" bg-red-400 px-4 py-2 flex mt-[20px]
            mb-0  text-center" style={{ display: address ? "none" : "block" }}  >

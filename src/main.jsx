@@ -7,7 +7,7 @@ import { StateContextProvider } from './context';
 import App from './App';
 import './index.css';
 
-import { Home, Dashboard, Profile, CampaignDetails, AllCampaigns, CreateCampaign, CampaignJankari, CampaignTypes} from './pages';
+import { Home, Dashboard, Profile, AllCampaigns, CreateCampaign, CampaignJankari, CampaignTypes} from './pages';
 
 const activeChain = {
   chainId: 11155111,

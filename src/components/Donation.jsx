@@ -3,7 +3,8 @@ import { useContract } from "@thirdweb-dev/react";
 import { ethers } from "ethers";
 
 const DonateSection = ({ campaignId, tiers = [] }) => {
-  const { contract } = useContract("0x7E0EcF65c99Cb2Fab59BFF83007c1B7Bab3f8536");
+  // const { contract } = useContract("0x7E0EcF65c99Cb2Fab59BFF83007c1B7Bab3f8536");
+  const { contract } = useContract("0x575f48Ad91Fe6B56c973D652a61fF4C04af8ef0a");
 
   const [donationAmount, setDonationAmount] = useState("");
   const [selectedTierIndex, setSelectedTierIndex] = useState(0);

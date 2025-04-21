@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { demo, user } from '../assets'
 import MiniFooter from '../components/MiniFooter'
 import DonateSection from '../components/Donation';
+import YoutubeEmbed from '../components/YoutubeEmbed';
 
 import { useLocation, useNavigate } from 'react-router';
 import { ethers } from 'ethers';
@@ -17,21 +18,42 @@ const CampaignJankari = () => {
   const [isOpen, setIsOpen] = useState(false)
   const { state } = useLocation();
   const navigate = useNavigate();
-  const { donate, getDonations, contract, address } = useStateContext();
+  const { donate, getDonations, contract, address, getUserCampaigns } = useStateContext();
 
   const [isLoading, setIsLoading] = useState(false);
   const [amount, setAmount] = useState('');
   const [donators, setDonators] = useState([]);
+  
 
-  const remainingDays = daysLeft(state.deadline);
+  // const remainingDays = daysLeft(state.deadline);
+  // const remainingDays = Math.max(daysLeft(state.deadline), 0);
+
+  const remainingDays = Math.max(daysLeft(state.deadline), 0);
+  const isExpired = remainingDays === 0;
+  const isFulfilled = state.amountCollected >= state.target;
+  
+  let buttonLabel = 'Fund Now';
+  let isDisabled = false;
+  
+  if (isExpired) {
+    buttonLabel = 'Campaign Expired';
+    isDisabled = true;
+  } else if (isFulfilled) {
+    buttonLabel = 'Donation Successful';
+    isDisabled = true;
+  }
+  
+
 
   const fetchDonators = async () => {
     const data = await getDonations(state.pId);
     setDonators(data);
   }
+ 
 
   useEffect(() => {
-    if (contract) fetchDonators();
+    if (contract) {
+      fetchDonators()}
   }, [contract, address])
 
   const handleDonate = async () => {
@@ -49,11 +71,16 @@ const CampaignJankari = () => {
   ];
 
   const [tiers, setTiers] = useState([]);
-
   const handleCreateTier = (newTier) => {
     setTiers((prevTiers) => [...prevTiers, newTier]);
   };
+  useEffect(()=> {
+  console.log(tiers);  
+  },[])
 
+  
+   
+ 
 
   return (
     <>
@@ -65,14 +92,14 @@ const CampaignJankari = () => {
             <div>
               <p className='text-green-700 font-extrabold'>FUNDING</p>
               <h1 className='text-[50px] font-extrabold font-georgia '>{state.title}</h1>
-              <p className='text-2xl text-[#808191]'>Help us create a new little indie bookshop, mostly for kids, in Lexington KY.</p>
+              <p className='text-2xl text-[#808191]'>Your Generosity Can Fuel a Movement – Donate Now and Make a Real Difference in the World.</p>
               <div className='flex gap-4 items-center m-6'>
                 <div className='w-9 h-9  bg-[#e50f75] rounded-full '>
-                  <img src={user} alt="user" className='p-2 px-2.5' />
+                  <img src={user} alt="user" className='p-2 px-2.5 ' />
                 </div>
                 <div>
-                  <h2 className=' text-xl'>Jill Bastin</h2>
-                  <p className='font-extralight text-[18px]'>1 Campaign | Lexington, United States</p>
+                  <h2 className=' text-xl'>{state.name}'s</h2>
+                  <p className='font-extralight text-[18px]'>campaign</p>
                 </div>
               </div>
 
@@ -81,16 +108,20 @@ const CampaignJankari = () => {
                 <p className='text-2xl'> <b>{donators.length}</b> backers</p>
               </div>
               <div className="relative w-full h-[10px]  rounded bg-[#3a3a43] mt-2">
-                <div className="absolute h-full bg-[#4acd8d] rounded" style={{ width: `${calculateBarPercentage(state.target, state.amountCollected)}`, maxWidth: '100%' }}>
+                <div className="absolute h-full bg-[#4acd8d] rounded" style={{ width: `${calculateBarPercentage(state.target, state.amountCollected)}%`, maxWidth: '100%' }}>
                 </div>
               </div>
               <div className='flex justify-between mt-2'  >
-                <p className='text-2xl'> {calculateBarPercentage(state.target, state.amountCollected)} of {state.target.toString()}ETH </p>
+                <p className='text-2xl'> {calculateBarPercentage(state.target, state.amountCollected)}% of {state.target.toString()}ETH </p>
                 <p className='text-2xl'> <b>{remainingDays}</b> days left</p>
               </div>
 
-              <div className='w-full my-4 text-white mb-[10px] border-0 px-10 text-[20px] py-4 bg-[#281439] rounded '>
-                <button type="button" className='w-full border-0 outline-0 cursor-pointer' onClick={() => setIsOpen(true)} >Fund Now</button>
+              <div isDisabled={isDisabled} className={`w-full my-4 text-white mb-[10px] border-0 px-10 text-[20px] py-4 bg-[#281439] rounded ${
+                  isDisabled ? 'bg-gray-400 cursor-not-allowed' : 'cursor-pointer'}  `}>
+                <button type="button" 
+                className={`w-full border-0 outline-0  ${
+                  isDisabled ? 'bg-gray-400 cursor-not-allowed' : 'cursor-pointer'} ` } 
+                  isDisabled={isDisabled} onClick={() => setIsOpen(true)} >{buttonLabel}</button>
               </div>
 
             </div>
@@ -108,6 +139,8 @@ const CampaignJankari = () => {
 
           <div>
             <h1 className='text-4xl my-3'>Short summary</h1>
+            <YoutubeEmbed videoUrl="https://www.youtube.com/watch?v=dQw4w9WgXcQ" />
+
             <div className='flex'> 
               <div className={`${tiers.length > 0 ? "w-[50%] ": "w-full"}`}>
                 <p style={{ whiteSpace: 'pre-line' }}>
@@ -116,7 +149,7 @@ const CampaignJankari = () => {
 
                 <div className={`${tiers.length > 0 ? " ": "flex gap-2 flex-wrap"}`}>
                   {state.mediaFiles.map((url, i) => (
-                    <img key={i} src={url} alt="" />
+                    <img key={i} src={url} className='min-w-[600px]' />
                   ))}
                 </div>
 
@@ -146,7 +179,6 @@ const CampaignJankari = () => {
               </div>
               <div>
                 <h4 className="font-epilogue font-semibold text-[14px] text-black break-all">{state.owner}</h4>
-                <p className="mt-[4px] font-epilogue font-normal text-[12px] text-[#808191]">10 Campaigns</p>
               </div>
             </div>
           </div>
