@@ -12,7 +12,7 @@ import { useFilter } from '../context/FilterContext';
 
 const Navbar = () => {
 
-  const [oldestFirst, setOldestFirst] = useState(false)
+  
 
   const { filters, updateFilter } = useFilter();
 
@@ -36,6 +36,7 @@ const Navbar = () => {
 
   return (
     <div className="w-full" >
+      
     <div className="flex w-full justify-between items-baseline px-2">
 
     <div className='bg-gray-300 flex w-full px-2 py-2 ml-10 rounded mr-10 text-[18px] font-extralight border-0 outline-0 '>
@@ -58,6 +59,8 @@ const Navbar = () => {
      campaigns={campaigns}
       />
   </div>
+
+  
 
   </div>
   )

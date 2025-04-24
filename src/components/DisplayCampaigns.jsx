@@ -10,21 +10,21 @@ const DisplayCampaigns = ({ title, isLoading, campaigns }) => {
   const navigate = useNavigate();
 
   const handleNavigate = (campaign) => {
-    navigate(`/campaign-details/${campaign.pid}`, { state: campaign })
+    navigate(`/campaign-details/${campaign.pId}`, { state: campaign })
   }
   const {filters} = useFilter();
 
   const searchTerm = filters.searchTerm.toLowerCase();
   // const searchTerm2 = filters.searchTerm2.toLowerCase();
   const filteredCampaigns = campaigns.filter((campaign)=> {
+    
     return (
       campaign.title.toLowerCase().includes(searchTerm) ||
       campaign.category.toLowerCase().includes(searchTerm) ||
-      campaign.subCategory.toLowerCase().includes(searchTerm) 
+      campaign.subCategory.toLowerCase().includes(searchTerm)
+     
     )
   })
- 
-
   
   return (
     <div>

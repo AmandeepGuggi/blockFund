@@ -8,9 +8,9 @@ export const useFilter = () => useContext(FilterContext);
 export const FilterProvider = ({ children }) => {
   const [filters, setFilters] = useState({
     searchTerm: '',
-    // searchTerm2: '',
     category: '',
     subcategory: '',
+    status: '',
   });
 
   const updateFilter = (key, value) => {

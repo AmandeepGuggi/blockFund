@@ -2,17 +2,19 @@ import React, { useState, useEffect } from 'react'
 import { demo, user } from '../assets'
 import MiniFooter from '../components/MiniFooter'
 import DonateSection from '../components/Donation';
-import YoutubeEmbed from '../components/YoutubeEmbed';
+import ReactPlayer from 'react-player';
 
-import { useLocation, useNavigate } from 'react-router';
+import { Link, useLocation, useNavigate } from 'react-router';
 import { ethers } from 'ethers';
 import { useStateContext } from '../context';
 import { CountBox, CustomButton, Loader } from '../components';
 import { calculateBarPercentage, daysLeft } from '../utils';
 import { thirdweb } from '../assets';
-import Modal from '../components/modal';
+import Modal from '../components/Modal';
 import CreateTier from '../components/CreateTier';
 import TierList from '../components/TierList';
+import ShareButton from '../components/ShareButton';
+import { FaYoutube } from 'react-icons/fa';
 
 const CampaignJankari = () => {
   const [isOpen, setIsOpen] = useState(false)
@@ -22,12 +24,12 @@ const CampaignJankari = () => {
 
   const [isLoading, setIsLoading] = useState(false);
   const [amount, setAmount] = useState('');
-  const [donators, setDonators] = useState([]);
+  const [donators, setDonators] = useState([]); 
   
+  const location = useLocation()
+  console.log(location);
 
-  // const remainingDays = daysLeft(state.deadline);
-  // const remainingDays = Math.max(daysLeft(state.deadline), 0);
-
+ 
   const remainingDays = Math.max(daysLeft(state.deadline), 0);
   const isExpired = remainingDays === 0;
   const isFulfilled = state.amountCollected >= state.target;
@@ -78,14 +80,11 @@ const CampaignJankari = () => {
   console.log(tiers);  
   },[])
 
-  
-   
- 
-
   return (
     <>
       {isLoading && "...loading"}
       <div >
+       
         <div className='m-4 mx-10'>
           <div className='flex gap-5'>
             <img src={state.mediaFiles[0]} alt="demo" className='max-h-[600px] min-w-[700px] object-cover' />
@@ -124,6 +123,7 @@ const CampaignJankari = () => {
                   isDisabled={isDisabled} onClick={() => setIsOpen(true)} >{buttonLabel}</button>
               </div>
 
+           <ShareButton url={location.pathname} />
             </div>
           </div>
 
@@ -133,13 +133,47 @@ const CampaignJankari = () => {
       {address === state.owner &&  <CreateTier campaignId={state.pId} />}
          
 
-          <hr className='my-4 border-gray-300 border-t-4' />
+          {address === state.owner && <hr className='my-4 border-gray-300 border-t-4' />}
 
 
 
           <div>
             <h1 className='text-4xl my-3'>Short summary</h1>
-            <YoutubeEmbed videoUrl="https://www.youtube.com/watch?v=dQw4w9WgXcQ" />
+            
+           
+
+            <Link to={state.videoURL} target='_blank' className='py-4 text-[#E50F75] flex items-center gap-3'>
+            <div 
+      
+      style={{
+        display: 'inline-flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: '50px',
+        height: '50px',
+        borderRadius: '50%',
+        backgroundColor: '#FF0000',
+        cursor: 'pointer',
+        boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
+        transition: 'transform 0.3s ease',
+      }}
+      onMouseEnter={(e) => (e.currentTarget.style.transform = 'scale(1.5)')}
+      onMouseLeave={(e) => (e.currentTarget.style.transform = 'scale(1)')}
+    >
+      <FaYoutube
+        size={24}
+        color="white"
+        style={{
+          pointerEvents: 'none',
+        }}
+      />
+            </div>
+           <p className='text-3xl font-extrabold'> WATCH IT ON YOUTUBE</p>
+            </Link>
+
+            <div className="w-full max-w-3xl ">
+      <ReactPlayer url={state.videoURL} controls width="100%" />
+    </div>
 
             <div className='flex'> 
               <div className={`${tiers.length > 0 ? "w-[50%] ": "w-full"}`}>
@@ -168,6 +202,10 @@ const CampaignJankari = () => {
             </div>
 
           </div>
+
+
+          <hr className='my-12 text-gray-400' />
+          <Link to={state.workProof} target='_blank'><p className='text-3xl text-[#E50F75] font-extrabold'>OFFICIAL DOCUMENTS</p></Link>
           <hr className='my-12 text-gray-400' />
 
           <div className='flex items-center gap-3 mb-6'>
@@ -175,13 +213,15 @@ const CampaignJankari = () => {
          text-black uppercase">Creator:</h4>
             <div className="mt-[20px] flex flex-row items-center flex-wrap gap-[14px]">
               <div className="w-[52px] h-[52px] flex items-center justify-center rounded-full bg-[#2c2f32] cursor-pointer">
-                <img src={thirdweb} alt="user" className="w-[60%] h-[60%] object-contain" />
+                <img src={thirdweb} alt="user" className="w-[60%] h-[60%] object-contain" /> 
               </div>
               <div>
-                <h4 className="font-epilogue font-semibold text-[14px] text-black break-all">{state.owner}</h4>
+                <h4 className="font-epilogue font-semibold text-[14px] text-black break-all">{state.owner}</h4> <span>{state.name}</span>
               </div>
             </div>
           </div>
+
+         
 
           <h2 className='font-epilogue font-semibold text-[18px] text-black uppercase mb-10'>Category: <span className='bg-gray-300 px-4 py-2 rounded-3xl font-epilogue font-semibold text-[13px] text-black uppercase"'>{state.category}</span> &nbsp;
             <span className='bg-gray-300 px-4 py-2 rounded-3xl font-epilogue font-semibold text-[13px] text-black uppercase"'>{state.subCategory}</span></h2>
@@ -204,6 +244,7 @@ const CampaignJankari = () => {
 
 
         </div>
+       
 
         <MiniFooter />
 

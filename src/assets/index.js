@@ -3,12 +3,14 @@ import dashboard from './dashboard.svg';
 import logo from './logo.svg';
 import logout from './logout.svg';
 import payment from './payment.svg';
+import bookmark from './bookmark.svg';
 import profile from './profile.svg';
 import sun from './sun.svg';
 import withdraw from './withdraw.svg';
 import tagType from './type.svg';
 import search from './search.svg';
 import blackSearch from './blackSearch.svg';
+import diagram from './diagram.jpeg';
 import menu from './menu.svg';
 import right from './right.svg';
 import left from './left.svg';
@@ -25,9 +27,10 @@ import game from './game.svg'
 import home from './home.svg'
 import phone from './phone.svg'
 import travel from './travel.svg'
+import share from './share.svg'
 
 export {
-  audio, energy, fitness, game, home, phone, travel,
+  audio, energy, fitness, game,share, home, phone, travel,
   tagType,
   demo,
   user,
@@ -47,5 +50,5 @@ export {
   thirdweb,
   right,
   left,
-  solarSystem
+  solarSystem, diagram, bookmark
 };

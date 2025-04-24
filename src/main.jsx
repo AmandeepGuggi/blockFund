@@ -8,6 +8,10 @@ import App from './App';
 import './index.css';
 
 import { Home, Dashboard, Profile, AllCampaigns, CreateCampaign, CampaignJankari, CampaignTypes} from './pages';
+import Explore from './Explore';
+import Contact from './staticPages/Contact';
+import HowItWorks from './staticPages/HowItWorks';
+
 
 const activeChain = {
   chainId: 11155111,
@@ -52,6 +56,21 @@ const router = createBrowserRouter([
         element: <CreateCampaign />,
       },
     ]
+  },
+  {
+    path: '/explore',
+    element: <Explore />,
+    children: [
+    
+    {
+      path: '/explore/learn',
+      element: <HowItWorks />
+    },
+    {
+      path: '/explore/contact',
+      element: <Contact />
+    },
+  ]
   }
 ])
 

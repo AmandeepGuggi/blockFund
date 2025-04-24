@@ -10,6 +10,7 @@ import { useFilter } from '../context/FilterContext';
 const Sidebar = () => {
 
   const { filters, updateFilter } = useFilter();
+  console.log(filters);
 
   const [openCategory, setOpenCategory] = useState(null);
 
@@ -31,7 +32,7 @@ const Sidebar = () => {
           className={`w-full flex justify-between text-left px-4 py-2 hover:text-[#e50f75]`}
           onClick={(e) => {
             e.preventDefault();
-            updateFilter("searchTerm", ""); // or use 'subcategory' if you're separating it
+            updateFilter("searchTerm", "");
           }}
         >
           <p>All</p> 
@@ -195,7 +196,7 @@ const Sidebar = () => {
         <h2 className='text-xl mb-3'>CAMPAIGN TIMING</h2>
 
        <div className='flex'  onClick={(e) => {
-            updateFilter("searchTerm", "active"); 
+            updateFilter('status', e.target.value); 
           }}>
        <input type="radio" name="status" id='active' value="all" />
        <label htmlFor="active"

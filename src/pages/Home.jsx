@@ -1,30 +1,31 @@
 import React, { useState, useEffect, useRef } from 'react'
 import HeroSection from '../components/HeroSection';
-import { left, right } from '../assets';
+import { left, right, loader } from '../assets';
 import { solarSystem, demo } from '../assets';
-import {CustomButton, Carousel, FundCard, Footer} from '../components';
+import {CustomButton, Carousel, FundCard, Footer, DisplayCampaigns} from '../components';
 import { useNavigate } from 'react-router';
-
+import { useStateContext } from '../context';
+import { v4 as uuidv4 } from "uuid";
 
 const Home = () => {
   const navigate = useNavigate()
   const [selected, setSelected] = useState(null)
-
+  const [isLoading, setIsLoading] = useState(false)
+    const [campaigns, setCampaigns] = useState([])
+ const { connect, address, contract, getCampaigns } = useStateContext();
   const scrollRef = useRef(null);
-  
-  // Function to scroll left
-  const scrollLeft = () => {
-    if (scrollRef.current) {
-      scrollRef.current.scrollLeft -= 300; // Adjust scroll distance
-    }
-  };
 
-  // Function to scroll right
-  const scrollRight = () => {
-    if (scrollRef.current) {
-      scrollRef.current.scrollLeft += 300;
+    const fetchCampaigns = async () => {
+      setIsLoading(true)
+      const data = await getCampaigns();
+      setCampaigns(data)
+      setIsLoading(false)
     }
-  };
+  
+    useEffect(()=>{
+      if(contract) fetchCampaigns();
+    }, [address, contract])
+  
 
   function toggle(i){
     if(selected === i){
@@ -57,14 +58,12 @@ const slides = [
  
 ]
   
-
+const handleNavigate = (campaign) => {
+  navigate(`/campaign-details/${campaign.pId}`, { state: campaign })
+}
   return (
-   
+    
     <>
-
-    {/* <div className='h-scrn bg-[url("./assets/quantam.webp")] bg-cover bg-center flex items-center justify-center text-white'>
-    <HeroSection />
-    </div> */}
     <div className='min-w-full z-1'>
       <Carousel AutoSlide={true} >
       {
@@ -86,77 +85,26 @@ const slides = [
      
     </div>
 
-    <div className='mt-[50px] overflow-x-auto scrollbar-hide flex gap-[20px]'>
-        <FundCard
-         owner="0x2817kjagdci7d6d"
-          title="demo campaign1"
-           description="Lorem ipsum dolor sit, amet consectetur adipisicing elit. Animi omnis similique dolore fugiat maxime! Vel aspernatur exercitationem ab reiciendis officia?" 
-           target="0.5ETH" 
-           deadline="03/05/20205" 
-           amountCollected="0.2" 
-           image={solarSystem}
-            handleClick={()=> console.log('clicked')}
-         />
-        <FundCard
-         owner="0x2817kjagdci7d6d"
-          title="demo campaign1"
-           description="Lorem ipsum dolor sit, amet consectetur adipisicing elit. Animi omnis similique dolore fugiat maxime! Vel aspernatur exercitationem ab reiciendis officia?" 
-           target="0.5ETH" 
-           deadline="03/05/20205" 
-           amountCollected="0.2" 
-           image={demo}
-            handleClick={()=> navigate("/campaign-details")}
-         />
-        <FundCard
-         owner="0x2817kjagdci7d6d"
-          title="demo campaign1"
-           description="Lorem ipsum dolor sit, amet consectetur adipisicing elit. Animi omnis similique dolore fugiat maxime! Vel aspernatur exercitationem ab reiciendis officia?" 
-           target="0.5ETH" 
-           deadline="03/05/20205" 
-           amountCollected="0.2" 
-           image={solarSystem}
-            handleClick={()=> console.log('clicked')}
-         />
-        <FundCard
-         owner="0x2817kjagdci7d6d"
-          title="demo campaign1"
-           description="Lorem ipsum dolor sit, amet consectetur adipisicing elit. Animi omnis similique dolore fugiat maxime! Vel aspernatur exercitationem ab reiciendis officia?" 
-           target="0.5ETH" 
-           deadline="03/05/20205" 
-           amountCollected="0.2" 
-           image={demo}
-            handleClick={()=> console.log('clicked')}
-         />
-        <FundCard
-         owner="0x2817kjagdci7d6d"
-          title="demo campaign1"
-           description="Lorem ipsum dolor sit, amet consectetur adipisicing elit. Animi omnis similique dolore fugiat maxime! Vel aspernatur exercitationem ab reiciendis officia?" 
-           target="0.5ETH" 
-           deadline="03/05/20205" 
-           amountCollected="0.2" 
-           image={solarSystem}
-            handleClick={()=> console.log('clicked')}
-         />
-        <FundCard
-         owner="0x2817kjagdci7d6d"
-          title="demo campaign1"
-           description="Lorem ipsum dolor sit, amet consectetur adipisicing elit. Animi omnis similique dolore fugiat maxime! Vel aspernatur exercitationem ab reiciendis officia?" 
-           target="0.5ETH" 
-           deadline="03/05/20205" 
-           amountCollected="0.2" 
-           image={solarSystem}
-            handleClick={()=> console.log('clicked')}
-         />
-        <FundCard
-         owner="0x2817kjagdci7d6d"
-          title="demo campaign1"
-           description="Lorem ipsum dolor sit, amet consectetur adipisicing elit. Animi omnis similique dolore fugiat maxime! Vel aspernatur exercitationem ab reiciendis officia?" 
-           target="0.5ETH" 
-           deadline="03/05/20205" 
-           amountCollected="0.2" 
-           image={solarSystem}
-            handleClick={()=> console.log('clicked')}
-         />
+    <div className='mt-[50px] overflow-x-auto flex gap-[30px]'>
+    <div className="flex overflow-x-auto mt-[20px] gap-[26px]">
+        {isLoading && (
+          <img src={loader} alt="loader" className="w-[100px] h-[100px] object-contain" />
+        )}
+
+        {!isLoading && campaigns.length === 0 && (
+          <p className="font-epilogue font-semibold text-[14px] leading-[30px] text-[#818183]">
+            You have not created any campigns yet
+          </p>
+        )}
+
+        {!isLoading && campaigns.length > 0 && campaigns.reverse().map((campaign) => 
+        <FundCard 
+          key={uuidv4()}
+          {...campaign}
+          handleClick={() => handleNavigate(campaign)}
+        />)}
+ 
+      </div>
       </div >
       <div className='flex justify-center items-center'>
 
@@ -198,10 +146,7 @@ const slides = [
                     
                 </div>
                 <div>
-                {/* <video className="min-h-36 rounded-lg shadow-lg" autoPlay loop muted >
-                     <source src="./video/Master.mp4" type="video/mp4" />
-                        Your browser does not support the video tag.
-                    </video> */}
+                
                 </div>
                
             </div>
@@ -213,7 +158,7 @@ const slides = [
             btnType="button"
             title="Start a Campaign " 
             handleClick={()=> {
-                navigate('/create-campaign')
+                navigate('/form')
             }} 
              styles=" bg-[#4acd8d] hover:translate-y[-4px] min-w-[300px] mb-[70px] " 
             />
