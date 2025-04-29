@@ -13,31 +13,31 @@ export default function Contact() {
     imgUrl="https://support.indiegogo.com/hc/theming_assets/01HZPB5M8GCKYCHPBQYHJYVMFH"
      title="Backers"
     description= "Find out how to evaluate and back crowdfunding campaigns, and manage your orders"
-     link = "#"
+     link = "/explore/backer"
     />
     <Card 
     imgUrl="https://support.indiegogo.com/hc/theming_assets/01HZPB5KGBBAHW4Y9482SSQBFX"
      title="Campaigns"
-    description= "Discover how to create, pla, and manage your crowdfunding campaign"
-     link = "#"
+    description= "Discover how to create, plan, and manage your crowdfunding campaign"
+     link = "/explore/creators"
     />
     <Card 
     imgUrl="https://support.indiegogo.com/hc/theming_assets/01HZPB5M2SY6NSTF9P0MZZJPNZ"
      title="Payments"
     description= "Learn how to connect your bank account and receive funds from your crowdfunding campaign"
-     link = "#"
+     link = "/explore/wallet"
     />
     <Card 
     imgUrl="https://support.indiegogo.com/hc/theming_assets/01HZPB5M2SY6NSTF9P0MZZJPNZ"
      title="Trust Operations"
     description= "Understand Blockfund's policies and how our Trust Operations team protects our customers"
-     link = "#"
+     link = "/explore/trust-policies"
     />
     <Card 
     imgUrl="https://support.indiegogo.com/hc/theming_assets/01HZPB5KY08CKD5QXZWRDQBWWQ"
      title="Profile"
     description= "Build and customize your Blockfund profile"
-     link = "#"
+     link = "/explore/profile-customization"
     />
    </section>
 

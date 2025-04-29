@@ -87,7 +87,7 @@ const CampaignJankari = () => {
        
         <div className='m-4 mx-10'>
           <div className='flex gap-5'>
-            <img src={state.mediaFiles[0]} alt="demo" className='max-h-[600px] min-w-[700px] object-cover' />
+            <img src={state.mediaFiles[0]} alt="demo" className='max-h-[600px] rounded min-w-[700px] object-cover' />
             <div>
               <p className='text-green-700 font-extrabold'>FUNDING</p>
               <h1 className='text-[50px] font-extrabold font-georgia '>{state.title}</h1>
@@ -230,7 +230,7 @@ const CampaignJankari = () => {
           <div>
             <h4 className="font-epilogue font-semibold text-[18px] text-black uppercase">Donators:</h4>
 
-            <div className="mt-[20px] flex flex-col gap-4">
+            {/* <div className="mt-[20px] flex flex-col gap-4">
               {donators.length > 0 ? donators.map((item, index) => (
                 <div key={`${item.donator}-${index}`} className="flex justify-between items-center gap-4">
                   <p className="font-epilogue font-normal text-[16px] text-[#b2b3bd] leading-[26px] break-ll">{index + 1}. {item.donator}</p>
@@ -239,7 +239,10 @@ const CampaignJankari = () => {
               )) : (
                 <p className="font-epilogue font-normal text-[16px] text-[#808191] leading-[26px] text-justify">No donators yet. Be the first one!</p>
               )}
-            </div>
+            </div> */}
+
+          
+
           </div>
 
 

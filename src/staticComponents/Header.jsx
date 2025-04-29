@@ -153,9 +153,9 @@ const Header = () => {
       )}
     </div> */}
 
-    <p className="text-2xl">Learn</p>
-    <p onClick={()=> navigate("/explore/contact")} className="text-2xl">Contact us</p>
-    <p className="text-2xl">Learn</p>
+    <p onClick={()=> navigate("/explore/learn")}  className="text-2xl cursor-pointer">Learn</p>
+    <p onClick={()=> navigate("/explore/contact")} className="text-2xl cursor-pointer">Contact us</p>
+    {/* <p className="text-2xl">Learn</p> */}
     
   </div>
 
@@ -163,7 +163,7 @@ const Header = () => {
  <button onClick={()=> navigate("/form")} className="bg-[#e50f75] text-white px-2 py-1.5 font-bold ">
     START A CAMPAIGN
   </button>
-  <button className="font-bold">Login</button>
+  {/* <button className="font-bold">Login</button> */}
  </div>
     
      

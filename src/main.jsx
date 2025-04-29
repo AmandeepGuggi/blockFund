@@ -11,6 +11,11 @@ import { Home, Dashboard, Profile, AllCampaigns, CreateCampaign, CampaignJankari
 import Explore from './Explore';
 import Contact from './staticPages/Contact';
 import HowItWorks from './staticPages/HowItWorks';
+import HelpForBackers from './staticPages/HelpForBackers';
+import HelpForCreators from './staticPages/HelpForCreators';
+import ConnectWalletHelp from './staticPages/ConnectWalletHelp';
+import TrustPolicies from './staticPages/TrustPolicies';
+import ProfileCustomization from './staticPages/ProfileCustomization';
 
 
 const activeChain = {
@@ -68,7 +73,27 @@ const router = createBrowserRouter([
     },
     {
       path: '/explore/contact',
-      element: <Contact />
+      element: <Contact />,
+    },
+    {
+      path: '/explore/backer',
+      element: <HelpForBackers />,
+    },
+    {
+      path: '/explore/creators',
+      element: <HelpForCreators />,
+    },
+    {
+      path: '/explore/wallet',
+      element: <ConnectWalletHelp />,
+    },
+    {
+      path: '/explore/trust-policies',
+      element: <TrustPolicies />,
+    },
+    {
+      path: '/explore/profile-customization',
+      element: <ProfileCustomization />,
     },
   ]
   }

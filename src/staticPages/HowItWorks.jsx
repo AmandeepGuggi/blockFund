@@ -3,7 +3,7 @@ import Crowdfunding from './Crowdfunding'
 
 const HowItWorks = () => {
   return (
-    <div id='how-it-works'>
+    <div>
       <Crowdfunding />
     </div>
   )

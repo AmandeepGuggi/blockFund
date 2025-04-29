@@ -5,36 +5,15 @@ import { FaFacebook,FaGithub,FaWhatsapp, FaTwitter, FaInstagram, FaLinkedin } fr
 import Modal from './Modal.jsx'
 
 const Footer = () => {
-  const [isOpen, setIsOpen] = useState(false)
-  const [email, setEmail] = useState('m')
-  function handleSubmit(e){
-    e.preventDefault()
-    console.log(email);
-    setIsOpen(true)
-  }
+  
+ 
   return (
     <div className='bg-[#1f0733] text-white '>
       <div className='flex mb-20 flex-col justify-center items-center mx-[100px]'>
         <h2 className='text-4xl mt-[80px] mb-[40px]'>Get the newest campaigns in your inbox</h2>
         <h3 className='text-xl mb-[20px] '>Exclusive weekly updates with new products, drops, and special offers</h3>
-       <form className='w-full' onSubmit={handleSubmit}>
-       <div className='w-full mb-[10px] border-0 px-10 text-[20px] py-4 bg-[#4c385c] rounded '>
-          <input required onChange={(e)=> setEmail(e.target.value)} type="email" placeholder='enter your email' className='w-full border-0 outline-0' />
-        </div>
-        <div className='w-full mb-2 border-0 px-10 text-[20px] py-4 bg-[#e50f75] rounded '>
-          <button type="submit" placeholder='enter your email' className='w-full border-0 outline-0' >SIGN ME UP</button>
-        </div>
-       </form>
-       <Modal 
- isOpen={isOpen}
- setIsOpen={setIsOpen}
- header={<p>Done Subscribing</p>}
- footer={<p>OK</p>}
- >
-  <div>
-    <p>Newsletter subscribed to {email} </p>
-  </div>
- </Modal>
+     
+     
         <p className='text-[14px]'>By clicking <b>“Sign me up”</b> I have read and agree to BlockFund's <u>Terms of Use</u> and <u>Privacy Policy </u>.
         This site is protected by reCAPTCHA and the Google Privacy Policy and Terms of Service apply.</p>
         
